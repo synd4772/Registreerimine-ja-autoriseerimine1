@@ -1,9 +1,7 @@
-﻿
-from module1 import *
+from MyModule import *
 from time import *
 
 user = []
-
 
 while True:
 
@@ -17,25 +15,14 @@ while True:
     if v == 0:
         if len(user) == 0:
             nimi = input("Mis su nimi on? ")
-            while True:
+            while v is not True or v is not False:
                 v = input("Kas soovite parooli geniseerida või ise välja mõelda? ")
-                if v.upper() == "JAH":
-                    new_user, y = Registration(nimi)
-                    secret_word = input("Mõtle välja salajane sõna! ")
-                    new_user["secret_word"] = secret_word
-                    user.append(new_user)
-                    user_data.append(new_user)
-                    max_id = y
-                    break
-                elif v.upper() == "EI":
-                    password = input("Mõtle välja parool ")
-                    perm, answer = PasswordCheck(password)
-                    if not perm:
-                        print(answer)
-                    else:
-                        break
-                else: 
-                    print("Kirjutage palun JAH või EI")
+                v = AnswerConverter(v)
+                if v is None:
+                    print("Vale vastus.")
+                    sleep(2)
+            password = MakePassword(v)
+
             if len(user) == 0:
                 new_user = Registration(nimi, password)
                 secret_word = input("Mõtle välja salajane sõna! ")
@@ -54,7 +41,7 @@ while True:
             else:
                 user.append(log_user)
                 print(f"Tere {user[0].get('user_name')}")
-        else: 
+        else:
             print("Te olete juba olemas! ")
     if v == 2:
         if len(user) != 0:
@@ -77,13 +64,13 @@ while True:
                             print(answer)
                         else:
                             break
-                    else: 
+                    else:
                         print("Kirjutage palun JAH või EI")
                 user_data["user_password"] = password
             elif v == 1:
                 new_name = input("New name ")
                 user_data["user_name"] = new_name
-            else: 
+            else:
                 pass
     if v == 3:
         pass
