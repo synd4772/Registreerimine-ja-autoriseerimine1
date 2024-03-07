@@ -1,104 +1,85 @@
-﻿import string
+import string
 from random import *
-y = string.octdigits
-x = string.ascii_letters
-z = string.punctuation
-lst = [x, y, z]
+from UserData import *
 
-user_data = [{
-    "user_id": 1,
-    "user_name": "Mark Piller",
-    "user_password": "SA4K1NM#MFDA",
-    "secret_word": "banana",
-    "email":"mark.piller@gmail.com"
-    },{
-    "user_id": 2,
-    "user_name": "John Doe",
-    "user_password": "das34SsDczxma",
-    "secret_word": "õun",
-    "email":"john.doe@gmail.com"
-    }]
+symbols_list = [string.octdigits, string.ascii_letters, string.punctuation]
 
-max_id = 2
+def AnswerConverter(answer):
+    t_ans = ['JAH', '1', 'YES', 'ДА']
+    f_ans = ['EI', '0', 'NO', 'НЕТ']
+    if any(i in answer.upper() for i in t_ans):
+        return True
+    elif any(i in answer.upper() for i in f_ans):
+        return False
+    else:
+        return None
 
-#def MakePassword(nimi):
-#    while True:
-#        v = input("Kas soovite parooli geniseerida või ise välja mõelda? ")
-#        if v.upper() == "JAH":
-#            new_user, y = Registration(nimi)
-#            secret_word = input("Mõtle välja salajane sõna! ")
-#            new_user["secret_word"] = secret_word
-#            user.append(new_user)
-#            user_data.append(new_user)
-#            max_id = y
-#            break
-#        elif v.upper() == "EI":
-#            password = input("Mõtle välja parool ")
-#            perm, answer = PasswordCheck(password)
-#            if not perm:
-#                print(answer)
-#            else:
-#                break
-#        else: 
-#            print("Kirjutage palun JAH või EI")
-#    return password
 
-def KasutajaJareldus(user):
-    pass
+# if any(i in answer.upper() for i in t_ans): return True
+# то что сверху эквивалентно тому, что снизу.
+# return True if any(i in answer.upper() for i in t_ans) else False
+# метод any проверяет есть ли хотя бы один элемент в
+def MakePassword(random_password: bool):
+    password = None
 
-def CheckName(name):
-    for i in name:
-        pass
-    pass
+    if random_password:
+        password = PasswordGeneration()
+    else:
+        password = input("Mõtle välja parool: ")
 
-def PasswordGeneretion():
-    password = ""
-    for _ in range(0, randint(5,9)):
-        x_ = randint(0,2)
-        password += str(lst[x_][randint(0,len(lst[x_]) - 1)])
     return password
 
-def PasswordCheck(password:str):
+
+def PasswordGeneration():
+    password = str()
+    for _ in range(0, randint(5, 9)):
+        random_symbol_lst_index = randint(0, 2)
+        password += str(symbols_list[random_symbol_lst_index][randint(0, len(symbols_list[random_symbol_lst_index]) - 1)])
+    return password
+
+def PasswordCheck(password: str):
     if len(password) < 5:
         return False, "Paroolil peab olema vähemalt 5 tähemärki"
-    for i in lst:
-        for x in i:
-            if list(password).count(x) == len(password):
+    for symbol_list in symbols_list:
+        for symbol in symbol_list:
+            if list(password).count(symbol) == len(password):
                 return False, "Parool ei tohi koosneda samadest sümbolitest"
-        #if list(password).count(str([x for x in i])) == len(password):
-        #    print("sümbol")
-    string_ = ""
-    for i in range(0,20):
-        string_ += str(i)
-        if password == string_ or password == string_[1:-1]:
+    maybe_password = ""
+    for number in range(0, 20):
+        maybe_password += str(number)
+        if password == maybe_password or password == maybe_password[1:-1]:
             return False, "Keerulisemad salasõnad"
     return True, "success"
 
-def FindUser(name):
-    for i in user_data:
-        if name == i.get("user_name"):
-            return True, i
-    return False, None
 
-def Registration(name:str, password = PasswordGeneretion()):
-    if FindUser(name) is False:
-        return None, False
-    x = {
-    "user_id": max_id + 1,
-    "user_name": name,
-    "user_password": password
+def FindUser(name):
+    for user in user_data:
+        if name == user.get("user_name"):
+            return user
+    return None
+
+
+def Registration(name: str, password=PasswordGeneration(), user_return=True, max_id_return=False):
+    if FindUser(name) is None:
+        return False
+    user = {
+        "user_id": len(user_data) + 1,
+        "user_name": name,
+        "user_password": password
     }
-    user_data.append(x)
-    
-    return x, max_id + 1
+
+    return_tuple = list()
+    if user_return:
+        return_tuple.append(user)
+    if max_id_return:
+        len(user_data)
+    return tuple(return_tuple)
+
 
 def Authorization(name, password):
-    x, user = FindUser(name)
-    if x is False:
-        print(x, user)
+    user = FindUser(name)
+    if user is None:
         return False
     if password != user.get("user_password"):
-        print(123)
         return False
-     
     return user
