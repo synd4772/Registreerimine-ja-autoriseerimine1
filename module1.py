@@ -21,6 +21,28 @@ user_data = [{
 
 max_id = 2
 
+#def MakePassword(nimi):
+#    while True:
+#        v = input("Kas soovite parooli geniseerida või ise välja mõelda? ")
+#        if v.upper() == "JAH":
+#            new_user, y = Registration(nimi)
+#            secret_word = input("Mõtle välja salajane sõna! ")
+#            new_user["secret_word"] = secret_word
+#            user.append(new_user)
+#            user_data.append(new_user)
+#            max_id = y
+#            break
+#        elif v.upper() == "EI":
+#            password = input("Mõtle välja parool ")
+#            perm, answer = PasswordCheck(password)
+#            if not perm:
+#                print(answer)
+#            else:
+#                break
+#        else: 
+#            print("Kirjutage palun JAH või EI")
+#    return password
+
 def KasutajaJareldus(user):
     pass
 

@@ -4,6 +4,7 @@ from time import *
 
 user = []
 
+
 while True:
 
     print("+-------------Menu-------------+")
@@ -23,6 +24,7 @@ while True:
                     secret_word = input("Mõtle välja salajane sõna! ")
                     new_user["secret_word"] = secret_word
                     user.append(new_user)
+                    user_data.append(new_user)
                     max_id = y
                     break
                 elif v.upper() == "EI":
@@ -34,13 +36,12 @@ while True:
                         break
                 else: 
                     print("Kirjutage palun JAH või EI")
-
             if len(user) == 0:
                 new_user = Registration(nimi, password)
                 secret_word = input("Mõtle välja salajane sõna! ")
                 new_user["secret_word"] = secret_word
+                user_data.append(new_user)
                 user.append(new_user)
-            print(user)
         else:
             print("Te olete juba olemas! ")
     if v == 1:
@@ -56,8 +57,37 @@ while True:
         else: 
             print("Te olete juba olemas! ")
     if v == 2:
-        pass
+        if len(user) != 0:
+            v = int(input("Mida soovite muuta, parooli(0) või nime(1)?"))
+            if v == 0:
+                while True:
+                    v = input("Kas soovite parooli geniseerida või ise välja mõelda? ")
+                    if v.upper() == "JAH":
+                        new_user, y = Registration(nimi)
+                        secret_word = input("Mõtle välja salajane sõna! ")
+                        new_user["secret_word"] = secret_word
+                        user.append(new_user)
+                        user_data.append(new_user)
+                        max_id = y
+                        break
+                    elif v.upper() == "EI":
+                        password = input("Mõtle välja parool ")
+                        perm, answer = PasswordCheck(password)
+                        if not perm:
+                            print(answer)
+                        else:
+                            break
+                    else: 
+                        print("Kirjutage palun JAH või EI")
+                user_data["user_password"] = password
+            elif v == 1:
+                new_name = input("New name ")
+                user_data["user_name"] = new_name
+            else: 
+                pass
     if v == 3:
         pass
     if v == 404:
         break
+    else:
+        pass
