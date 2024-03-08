@@ -47,10 +47,6 @@ def AnswerConverter(answer = None, make_question = True):
 # то что сверху эквивалентно тому, что снизу.
 # return True if any(i in answer.upper() for i in t_ans) else False
 # метод any проверяет есть ли хотя бы один элемент в
-
-def NameCheck(name:str):
-    return False
-
 def PasswordGeneration():
     password = str()
     for _ in range(0, randint(5, 9)):
@@ -107,19 +103,13 @@ def CheckEmailCode(email, code):
             return True
     return False
 
-def Registration(name: str, password:str, user_return=True, max_id_return=False):
+def Registration(name: str, password:str):
     user = {
         "user_id": len(user_data),
         "user_name": name,
         "user_password": password
     }
-
-    return_tuple = list()
-    if user_return:
-        return_tuple.append(user)
-    if max_id_return:
-        return_tuple.append(len(user_data))
-    return tuple(return_tuple) if len(return_tuple) > 1 else return_tuple[0]
+    return user
 
 def Authorization(name, password):
     user = FindUserByName(name)
