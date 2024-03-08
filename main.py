@@ -22,15 +22,13 @@ while True:
         if len(current_user) == 0:
             nimi = VariableCheck("Mis sinu nimi on? ", 'See nimi on juba olemas.', FindUserByName, find_user_condition=True)
             password = MakePassword()
-            new_user = Registration(nimi, password)
-
             secret_word = input("Mõtle välja salajane sõna! ")
-            new_user["secret_word"] = secret_word
             v = VariableCheck("Kas soovite posti lisada? ", "Vale vastus", AnswerConverter)
             if v is True:
                 email = input("Mis post see on? ")
                 new_user['email'] = email
-            user_data.append(new_user)
+
+            new_user = Registration(nimi, password, secret_word, email if v is True else None)
             current_user.append(new_user)
         else:
             print("Te olete juba olemas! \n")
@@ -71,14 +69,14 @@ while True:
                     print("Teie e-postile tuli kood")
                     while True:
                         input_code = input("Kood: ")
-                        if CheckEmailCode(email, input_code) or InputQuit(input_code):
+                        if CheckEmailCode(email, input_code):
                             break
                         print("See pole õige kood!")
 
-                    if not InputQuit(input_code):
-                        if input_code == code:
-                            user = FindUserByEmail(email)
-                            current_user.append(user)
+                    if input_code == code:
+                        print("lol")
+                        user = FindUserByEmail(email)
+                        current_user.append(user)
             else:
                 user = VariableCheck("Palun kirjutage oma nimi: ", "Sellist nime ei ole olemas! ", FindUserByName)
                 secret_word = input("Sisesta oma salajane sõna: ")
