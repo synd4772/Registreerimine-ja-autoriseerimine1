@@ -1,4 +1,5 @@
 from ModuleImports import *
+
 symbols_list = [string.octdigits, string.ascii_letters, string.punctuation]
 
 def InputQuit(value):
@@ -103,12 +104,17 @@ def CheckEmailCode(email, code):
             return True
     return False
 
-def Registration(name: str, password:str):
+def Registration(name: str, password:str, secret_word:str, email:str):
     user = {
         "user_id": len(user_data),
         "user_name": name,
-        "user_password": password
+        "user_password": password,
+        "secret_word" : secret_word
     }
+    if email is not None:
+        user["email"] = email
+    user_data.append(user)
+
     return user
 
 def Authorization(name, password):
@@ -119,24 +125,59 @@ def Authorization(name, password):
         return False
     return user
 
-def CodeGenerator():
+def CodeGenerator(email):
     letters_numbers_list = [string.ascii_letters, string.digits]
     code = str()
     for _ in range(0, randint(5, 9)):
         random_symbol_lst_index = randint(0, 1)
         code += str(
             letters_numbers_list[random_symbol_lst_index][randint(0, len(letters_numbers_list[random_symbol_lst_index]) - 1)])
+
+    file = "email.txt"
+    email_data.append({'email':email,'code':code})
+    with open(file, mode="w", encoding="utf-8") as f: 
+        f.write(f"{email} - {code}")
+
     return code
 
 def SendMail(email):
-    file = "email.txt"
-    code = CodeGenerator()
-    email_data.append({'email':email,'code':code})
-    with open(file, mode="w", encoding="utf-8") as f:
-        f.write(f"{email} - {code}")
-    return code
+    import smtplib, ssl
+    from email.message import EmailMessage
+    
+    code = CodeGenerator(email)
+
+    smtp_server = "smtp.gmail.com"
+    port = 587
+    sender_email = "sans1999lorf@gmail.com"
+    password = "aycm hnxh optg nfhs"
+
+    msg = EmailMessage()
+
+    msg['subject'] = code#"Parooli uuendamise kood"
+    msg['from'] = "sans1999lorf@gmail.com"
+    msg['to'] = email
+
+    context = ssl.create_default_context()
+
+    try:
+        server = smtplib.SMTP(smtp_server, port)
+        server.ehlo()
+        server.starttls(context=context)
+        server.ehlo()
+        server.login(sender_email, password)
+        server.send_message(msg)
+
+    except Exception as e:
+        print(e)
+    finally:
+        server.quit()
+
+    
 
 def InformationDisplay(user):
     print("+-------------------------+")
     print(f"Nimi - '{user.get('user_name')}'\nPassword - '{user.get('user_password')}'\nSecret word - '{user.get('secret_word')}'\n{'Email - ' + user.get('email') if 'email' in user else ''}")
     print("+-------------------------+\n")
+
+
+
