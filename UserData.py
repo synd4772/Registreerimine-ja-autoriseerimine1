@@ -10,4 +10,11 @@ user_data = [{
     "user_password": "das34SsDczxma",
     "secret_word": "õun",
     "email": "john.doe@gmail.com"
+},
+    {
+    "user_id": 3,
+    "user_name": "Aleksander Milishenko",
+    "user_password": "das34SsDczxma",
+    "secret_word": "õun",
+    "email": "alex.milishenko@gmail.com"
 }]
