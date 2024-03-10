@@ -72,9 +72,7 @@ while True:
                         if CheckEmailCode(email, input_code):
                             break
                         print("See pole õige kood!")
-
                     if input_code == code:
-                        print("lol")
                         user = FindUserByEmail(email)
                         current_user.append(user)
             else:
